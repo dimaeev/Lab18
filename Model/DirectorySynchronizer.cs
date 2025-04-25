@@ -55,13 +55,19 @@ namespace DirectorySyncApp.Model
           {
             case FileChangeType.Created:
             case FileChangeType.Modified:
-              EnsureDirectoryExists(Path.GetDirectoryName(targetPath));
-              File.Copy(sourcePath, targetPath, overwrite: true);
-              break;
+              {
+                EnsureDirectoryExists(Path.GetDirectoryName(targetPath));
+                File.Copy(sourcePath, targetPath, overwrite: true);
+                break;
+              }
             case FileChangeType.Deleted:
-              if (File.Exists(targetPath))
-                File.Delete(targetPath);
-              break;
+              {
+                if (File.Exists(targetPath))
+                {
+                  File.Delete(targetPath);
+                }
+                break;
+              }
           }
         }
         catch (Exception ex)

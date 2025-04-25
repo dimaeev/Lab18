@@ -12,10 +12,17 @@ namespace DirectorySyncApp.Presenter
 
     public SyncPresenter(ISyncView view, DirectorySynchronizer synchronizer)
     {
-      _view = view ?? throw new ArgumentNullException(nameof(view));
-      _synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
+      if (view == null)
+      {
+        throw new ArgumentNullException(nameof(view));
+      }
+      if (synchronizer == null)
+      {
+        throw new ArgumentNullException(nameof(synchronizer));
+      }
 
-      SubscribeToEvents();
+      _view = view;
+      _synchronizer = synchronizer;
     }
 
     private void SubscribeToEvents()
@@ -61,10 +68,14 @@ namespace DirectorySyncApp.Presenter
     private void ValidateDirectories()
     {
       if (string.IsNullOrWhiteSpace(_view.SourceDirectory))
-                throw new ArgumentException("Не выбрана исходная директория");
+      {
+        throw new ArgumentException("Не выбрана исходная директория");
+      }
 
       if (string.IsNullOrWhiteSpace(_view.TargetDirectory))
+      {
         throw new ArgumentException("Не выбрана целевая директория");
+      }
     }
   }
 }
